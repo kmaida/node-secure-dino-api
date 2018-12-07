@@ -9,7 +9,7 @@ const source = require('./data/dinosaurs.json');
 let dinosData = [...source];
 
 // Data
-const dinosList = dinos.map(dino => {
+const dinosList = dinosData.map(dino => {
   return {
     name: dino.name,
     pronunciation: dino.pronunciation
@@ -34,14 +34,14 @@ module.exports = function(app) {
   app.get('/api/dinosaurs', (req, res) => {
     setTimeout(() => {
       res.json(dinosList);
-    }, randomDelay());
+    }, delay());
   });
 
   // GET dinosaur details by name
-  // Requires login; delegated access w/ read:dino-details scope
+  // Requires login; delegated access w/ scope
   app.get('/api/dinosaur/:name',
     authCheck,
-    requiredScopes('read:dino-details'),
+    requiredScopes('dino-details:read'),
     (req, res) => {
       setTimeout(() => {
         const name = req.params.name;
@@ -52,11 +52,11 @@ module.exports = function(app) {
   );
 
   // POST toggles dino as a favorite
-  // Requires login; delegated access w/ scope write:dinos-fav
+  // Requires login; delegated access w/ scope
   // Dinosaur name must be provided in body
   app.post('/api/fav',
     authCheck,
-    requiredScopes('write:dino-fav'),
+    requiredScopes('dino-fav:write'),
     (req, res) => {
       setTimeout(() => {
         const dinoName = req.body.name;
@@ -72,7 +72,7 @@ module.exports = function(app) {
           }
           res.json(matchingDino);
         }
-      }, randomDelay());
+      }, delay());
     }
   );
 };
