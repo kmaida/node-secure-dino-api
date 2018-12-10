@@ -62,7 +62,7 @@ This endpoint requires authentication. It returns a dinosaur object with the fol
 }
 ```
 
-Delegated access is available with the `read:dino-details` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+Delegated access is available with the `dino-details:read` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
 ### POST `/api/fav`
 
@@ -84,4 +84,4 @@ The dinosaur favorite property will be toggled and the dinosaur's full details w
 }
 ```
 
-Delegated access is available with the `write:dino-fav` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+Delegated access is available with the `dino-fav:write` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
