@@ -5,7 +5,7 @@
   "repository": "https://github.com/kmaida/ng-comp-life-server",
   "main": "server.js",
   "scripts": {
-    "start": "node server"
+    "start": "nodemon server"
   },
   "author": "Kim Maida",
   "license": "MIT",
@@ -16,5 +16,7 @@
     "express": "^4.16.4",
     "express-oauth2-bearer": "^0.3.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.18.8"
+  }
 }

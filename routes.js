@@ -1,8 +1,8 @@
 // Dependencies
-const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
+// const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
 
-// Authentication
-const authCheck = auth(strategies.openid());
+// // Authentication
+// const authCheck = auth(strategies.openid());
 
 // Data
 const source = require('./data/dinosaurs.json');
@@ -24,7 +24,7 @@ const delay = () => Math.random() * 2500;
  |--------------------------------------
  */
 
-module.exports = function(app) {
+module.exports = function(app, authCheck, requiredScopes) {
   // API works (public)
   app.get('/api', (req, res) => {
     res.send('Dinosaurs API works!');
@@ -41,7 +41,7 @@ module.exports = function(app) {
   // Requires login; delegated access w/ scope
   app.get('/api/dinosaur/:name',
     authCheck,
-    requiredScopes('dino-details:read'),
+    requiredScopes('read:dino-details'),
     (req, res) => {
       setTimeout(() => {
         const name = req.params.name;
@@ -56,7 +56,7 @@ module.exports = function(app) {
   // Dinosaur name must be provided in body
   app.post('/api/fav',
     authCheck,
-    requiredScopes('dino-fav:write'),
+    requiredScopes('write:dino-fav'),
     (req, res) => {
       setTimeout(() => {
         const dinoName = req.body.name;
