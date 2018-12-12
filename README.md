@@ -14,17 +14,8 @@ $ npm install
 To start the server, run the following command from the root of the folder containing your `server.js` file:
 
 ```bash
-$ node server
+$ npm start
 ```
-
-Alternatively, you could install [nodemon](https://nodemon.io/), which monitors the server for changes and restarts it automatically:
-
-```bash
-$ npm install -g nodemon
-$ nodemon server
-```
-
-> **Note:** To install `nodemon` globally, you may need to use `sudo` (Mac/Linux) or run your command prompt as Administrator (Windows).
 
 ## Usage
 
@@ -62,7 +53,7 @@ This endpoint requires authentication. It returns a dinosaur object with the fol
 }
 ```
 
-Delegated access is available with the `dino-details:read` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+Delegated access is available with the `read:dino-details` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
 ### POST `/api/fav`
 
@@ -84,4 +75,4 @@ The dinosaur favorite property will be toggled and the dinosaur's full details w
 }
 ```
 
-Delegated access is available with the `dino-fav:write` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+Delegated access is available with the `write:dino-fav` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
