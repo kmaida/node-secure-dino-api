@@ -73,6 +73,7 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
 
   // GET Admin
   // Requires login
+  // Requires read:admin scope
   // Requires admin user role claim
   app.get('/api/admin',
     authCheck,
