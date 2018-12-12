@@ -76,6 +76,7 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
   // Requires admin user role claim
   app.get('/api/admin',
     authCheck,
+    requiredScopes('read:admin'),
     requiredRole('admin'),
     (req, res) => {
       // console.log(req.auth.claims);
