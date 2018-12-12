@@ -1,9 +1,3 @@
-// Dependencies
-// const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
-
-// // Authentication
-// const authCheck = auth(strategies.openid());
-
 // Data
 const source = require('./data/dinosaurs.json');
 let dinosData = [...source];
@@ -24,7 +18,7 @@ const delay = () => Math.random() * 2500;
  |--------------------------------------
  */
 
-module.exports = function(app, authCheck, requiredScopes) {
+module.exports = function(app, authCheck, requiredScopes, requiredRole) {
   // API works (public)
   app.get('/api', (req, res) => {
     res.send('Dinosaurs API works!');
@@ -43,6 +37,7 @@ module.exports = function(app, authCheck, requiredScopes) {
     authCheck,
     requiredScopes('read:dino-details'),
     (req, res) => {
+      console.log(req.auth.claims);
       setTimeout(() => {
         const name = req.params.name;
         const thisDino = dinosData.find(dino => dino.name.toLowerCase() === name);
@@ -72,6 +67,20 @@ module.exports = function(app, authCheck, requiredScopes) {
           }
           res.json(matchingDino);
         }
+      }, delay());
+    }
+  );
+
+  // GET Admin
+  // Requires login
+  // Requires admin user role claim
+  app.get('/api/admin',
+    authCheck,
+    requiredRole('admin'),
+    (req, res) => {
+      // console.log(req.auth.claims);
+      setTimeout(() => {
+        res.json({ message: 'Congratulations, you are an Admin!' });
       }, delay());
     }
   );
