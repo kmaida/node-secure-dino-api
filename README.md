@@ -35,7 +35,7 @@ This endpoint is _public_. It returns an array of objects with the following typ
 ]
 ```
 
-### GET `/api/dinosaur/:name`
+### GET `/api/secure/dinosaur/:name`
 
 This endpoint requires authentication. It returns a dinosaur object with the following type:
 
@@ -53,9 +53,9 @@ This endpoint requires authentication. It returns a dinosaur object with the fol
 }
 ```
 
-Delegated access is available with the `read:dino-details` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+Delegated access is available with the `read:dino-details` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
-### POST `/api/fav`
+### POST `/api/secure/fav`
 
 This endpoint requires authentication. A post `body` must be sent with the request containing the name of the dinosaur that should be marked as a favorite.
 
@@ -75,4 +75,18 @@ The dinosaur favorite property will be toggled and the dinosaur's full details w
 }
 ```
 
-Delegated access is available with the `write:dino-fav` scope for bearers of access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+Delegated access is available with the `write:dino-fav` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+
+### GET `/api/secure/admin`
+
+This endpoint requires authentication. A simple JSON object is returned confirming the user is an admin.
+
+```
+{
+  message: 'Congratulations, you are an Admin!'
+}
+```
+
+Delegated access is available with the `read:admin` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
+
+A user role of `[admin]` is also required in a custom claim. You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the namespace for your rule in the `.env` file.
