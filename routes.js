@@ -37,7 +37,6 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
     authCheck,
     requiredScopes('read:dino-details'),
     (req, res) => {
-      console.log(req.auth.claims);
       setTimeout(() => {
         const name = req.params.name;
         const thisDino = dinosData.find(dino => dino.name.toLowerCase() === name);
@@ -80,7 +79,6 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
     requiredScopes('read:admin'),
     requiredRole('admin'),
     (req, res) => {
-      // console.log(req.auth.claims);
       setTimeout(() => {
         res.json({ message: 'Congratulations, you are an Admin!' });
       }, delay());
