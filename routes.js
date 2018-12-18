@@ -33,7 +33,7 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
 
   // GET dinosaur details by name
   // Requires login; delegated access w/ scope
-  app.get('/api/dinosaur/:name',
+  app.get('/api/secure/dinosaur/:name',
     authCheck,
     requiredScopes('read:dino-details'),
     (req, res) => {
@@ -49,7 +49,7 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
   // POST toggles dino as a favorite
   // Requires login; delegated access w/ scope
   // Dinosaur name must be provided in body
-  app.post('/api/fav',
+  app.post('/api/secure/fav',
     authCheck,
     requiredScopes('write:dino-fav'),
     (req, res) => {
@@ -75,7 +75,7 @@ module.exports = function(app, authCheck, requiredScopes, requiredRole) {
   // Requires login
   // Requires read:admin scope
   // Requires admin user role claim
-  app.get('/api/admin',
+  app.get('/api/secure/admin',
     authCheck,
     requiredScopes('read:admin'),
     requiredRole('admin'),
