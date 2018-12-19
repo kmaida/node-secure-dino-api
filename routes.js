@@ -70,10 +70,12 @@ router.get('/api/secure/dinosaur/:name',
 
 // POST toggles dino as a favorite (secure)
 // Requires access token; delegated access w/ scope
+// Requires 'admin' user role claim
 // Dinosaur name must be provided in body
 router.post('/api/secure/fav',
   authCheck,
   requiredScopes('write:dino-fav'),
+  requiredRole('admin'),
   (req, res) => {
     setTimeout(() => {
       const dinoName = req.body.name;
@@ -98,20 +100,6 @@ router.post('/api/secure/fav',
         // Return (updated) matching dinosaur details JSON
         res.json(matchingDino);
       }
-    }, delay());
-  }
-);
-
-// GET Admin (secure)
-// Requires access token; delegated access with scope
-// Requires 'admin' user role claim
-router.get('/api/secure/admin',
-  authCheck,
-  requiredScopes('read:admin'),
-  requiredRole('admin'),
-  (req, res) => {
-    setTimeout(() => {
-      res.json({ message: 'Congratulations, you are an Admin!' });
     }, delay());
   }
 );

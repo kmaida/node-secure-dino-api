@@ -22,7 +22,7 @@ $ npm install
 
 1. Go to the [**Auth0 Dashboard - APIs**](https://manage.auth0.com/#/apis) section and click the "+ Create API" button.
 2. Give your API a name like `Secure Dino API` and enter an identifier. The identifier will be the _audience_ claim for access tokens to call this API. The identifier should be `https://secure-dino-api`.
-3. Go to the **Scopes** tab of your API's settings. Add `read:dino-details`, `write:dino-fav`, and `read:admin` as scopes.
+3. Go to the **Scopes** tab of your API's settings. Add `read:dino-details` and `write:dino-fav` as scopes.
 
 ### User Roles Rule
 
@@ -144,18 +144,6 @@ The dinosaur favorite property will be toggled and the dinosaur's full details w
 The dinosaur simplified listing will also be updated to reflect favoriting activity. Changes will persist in the local user's instance until the local Node server is restarted. (Data is not stored anywhere outside of the JavaScript implementation, so it will not persist for multiple users or across sessions.)
 
 Delegated access is available with the `write:dino-fav` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
-
-### GET `/api/secure/admin`
-
-This endpoint requires authorization with an access token. A simple JSON object is returned confirming the user is an admin.
-
-```
-{
-  message: 'Congratulations, you are an Admin!'
-}
-```
-
-Delegated access is available with the `read:admin` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
 A user role of `'admin'` is also required in an array of roles contained in a custom claim in the access token. ([Instructions for doing so are here](#user-roles-rule).) You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
 
