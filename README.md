@@ -1,5 +1,7 @@
 # node-api-dinos-secure
 
+Node.js OAuth 2.0 API with public and secure endpoints and delegated authorization.
+
 ## Install Dependencies
 
 Install the server dependencies with npm or yarn:
@@ -15,6 +17,7 @@ To start the server, run the following command from the root of the folder conta
 
 ```bash
 $ npm start
+# nodemon server
 ```
 
 ## Usage
@@ -37,7 +40,7 @@ This endpoint is _public_. It returns an array of objects with the following typ
 
 ### GET `/api/secure/dinosaur/:name`
 
-This endpoint requires authentication. It returns a dinosaur object with the following type:
+This endpoint requires authorization with an access token. It returns a dinosaur object with the following type:
 
 ```js
 {
@@ -57,7 +60,7 @@ Delegated access is available with the `read:dino-details` scope for access toke
 
 ### POST `/api/secure/fav`
 
-This endpoint requires authentication. A post `body` must be sent with the request containing the name of the dinosaur that should be marked as a favorite.
+This endpoint requires authorization with an access token. A post `body` must be sent with the request containing the name of the dinosaur that should be marked as a favorite.
 
 The dinosaur favorite property will be toggled and the dinosaur's full details will be returned:
 
@@ -79,7 +82,7 @@ Delegated access is available with the `write:dino-fav` scope for access tokens 
 
 ### GET `/api/secure/admin`
 
-This endpoint requires authentication. A simple JSON object is returned confirming the user is an admin.
+This endpoint requires authorization with an access token. A simple JSON object is returned confirming the user is an admin.
 
 ```
 {

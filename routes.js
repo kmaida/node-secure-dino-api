@@ -53,7 +53,7 @@ router.get('/api/dinosaurs', (req, res) => {
 });
 
 // GET dinosaur details by name (secure)
-// Requires login; delegated access w/ scope
+// Requires access token; delegated access w/ scope
 router.get('/api/secure/dinosaur/:name',
   authCheck,
   requiredScopes('read:dino-details'),
@@ -67,7 +67,7 @@ router.get('/api/secure/dinosaur/:name',
 );
 
 // POST toggles dino as a favorite (secure)
-// Requires login; delegated access w/ scope
+// Requires access token; delegated access w/ scope
 // Dinosaur name must be provided in body
 router.post('/api/secure/fav',
   authCheck,
@@ -92,7 +92,7 @@ router.post('/api/secure/fav',
 );
 
 // GET Admin (secure)
-// Requires login; delegated access with scope
+// Requires access token; delegated access with scope
 // Requires 'admin' user role claim
 router.get('/api/secure/admin',
   authCheck,
