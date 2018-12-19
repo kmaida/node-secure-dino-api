@@ -13,12 +13,11 @@ const dinosList = dinosData.map(dino => {
 // Simulate live server call by adding random delay
 const delay = () => Math.random() * 2500;
 
-// Authorization (for endpoint protection / routes)
-// Accessing protected routes requires access
+// Authorization
+// Accessing secure routes requires access
 // token from issuer specified in .env config
 const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
 const authCheck = auth(strategies.openid());
-
 // Verify user has appropriate role in custom token claims
 const createError = require('http-errors');
 const requiredRole = (role) => {
@@ -30,7 +29,12 @@ const requiredRole = (role) => {
     ) {
       return next();
     } else {
-      return next(createError(401, 'You do not have sufficient permissions to access this resource.'));
+      return next(
+        createError(
+          401,
+          'You do not have sufficient permissions to access this resource.'
+        )
+      );
     }
   }
 };
