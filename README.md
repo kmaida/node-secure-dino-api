@@ -2,6 +2,11 @@
 
 Node.js OAuth 2.0 API with public and secure endpoints and delegated authorization.
 
+## Prerequisites
+
+* [Node.js with npm](http://nodejs.org), Node >= 6.9.0, npm >= 3
+* [Free Auth0 account](https://auth0.com/signup)
+
 ## Install Dependencies
 
 Install the server dependencies with npm or yarn:
@@ -11,9 +16,66 @@ $ npm install
 # or yarn install
 ```
 
+## Auth0 Setup
+
+### API
+
+1. Go to the [**Auth0 Dashboard - APIs**](https://manage.auth0.com/#/apis) section and click the "+ Create API" button.
+2. Give your API a name like `Secure Dino API` and enter an identifier. The identifier will be the _audience_ claim for access tokens to call this API. The identifier should be `https://secure-dino-api`.
+3. Go to the **Scopes** tab of your API's settings. Add `read:dino-details`, `write:dino-fav`, and `read:admin` as scopes.
+
+### User Roles Rule
+
+1. Go to the [**Auth0 Dashboard - Rules**](https://manage.auth0.com/#/rules) section and [create a new Rule](https://manage.auth0.com/#/rules/create). Choose the _Empty Rule_ template.
+2. Give your rule a name. `Set user roles and add to tokens` would be appropriate.
+3. Enter the following code in the Rule editor, replacing `{YOUR_FULL_EMAIL_HERE}` with your own email address:
+
+```js
+function(user, context, callback) {
+  // Make sure the user has verified their email address
+  if (!user.email || !user.email_verified) {
+    return callback(new UnauthorizedError('Please verify your email before logging in.'));
+  }
+  user.app_metadata = user.app_metadata || {};
+  var addRolesToUser = function(user, cb) {
+    if (user.email && user.email === '{YOUR_FULL_EMAIL_HERE}') {
+      cb(null, ['admin']);
+    } else {
+      cb(null, ['user']);
+    }
+  };
+  addRolesToUser(user, function(err, roles) {
+    if (err) {
+      callback(err);
+    } else {
+      user.app_metadata.roles = roles;
+      auth0.users.updateAppMetadata(user.user_id, user.app_metadata)
+        .then(function(){
+          var namespace = 'http://myapp.com/roles';
+          var userRoles = user.app_metadata.roles;
+          context.idToken[namespace] = userRoles;
+          context.accessToken[namespace] = userRoles;
+          callback(null, user, context);
+        })
+        .catch(function(err){
+          callback(err);
+        });
+    }
+  });
+}
+```
+
+## Node API Configuration
+
+1. Open the `.env.sample` file.
+2. Replace `ISSUER_BASE_URL` value with your Auth0 domain with `https://` in front of it (e.g., `https://{your-tenant}.auth0.com`).
+3. Enter the API identifier as the `ALLOWED_AUDIENCES` value. This should be `https://secure-dino-api` (as specified in the Auth0 setup above).
+4. Replace `ROLES_CLAIM_NAMESPACE` value with your collision-resistant custom JWT roles claim namespace. If you copied the rule code from the section above, this will be `http://myapp.com/roles`.
+5. Remove the `.sample` extension to activate the file.
+
 ## Serve
 
-To start the server, run the following command from the root of the folder containing your `server.js` file:
+To start the server locally, run the following command from the root of the folder containing your `server.js` file:
 
 ```bash
 $ npm start
