@@ -89,4 +89,8 @@ This endpoint requires authentication. A simple JSON object is returned confirmi
 
 Delegated access is available with the `read:admin` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
-A user role of `[admin]` is also required in a custom claim. You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the namespace for your rule in the `.env` file.
+A user role of `'admin'` is also required in an array of roles contained in a custom claim in the access token. You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
+
+## License
+
+[MIT](LICENSE)
