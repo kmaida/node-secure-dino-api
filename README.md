@@ -1,6 +1,6 @@
 # node-api-dinos-secure
 
-Node.js OAuth 2.0 API with public and secure endpoints and delegated authorization.
+Node.js OAuth 2.0 API with public and secure endpoints and delegated authorization. Instructions are available below for setting up this API using [Auth0](https://auth0.com) as the authorization server for issuing access tokens.
 
 ## Prerequisites
 
@@ -68,9 +68,9 @@ function(user, context, callback) {
 ## Node API Configuration
 
 1. Open the `.env.sample` file.
-2. Replace `ISSUER_BASE_URL` value with your Auth0 domain with `https://` in front of it (e.g., `https://{your-tenant}.auth0.com`).
+2. Replace the `ISSUER_BASE_URL` value with your Auth0 domain with `https://` in front of it (e.g., `https://{your-tenant}.auth0.com`).
 3. Enter the API identifier as the `ALLOWED_AUDIENCES` value. This should be `https://secure-dino-api` (as specified in the Auth0 setup above).
-4. Replace `ROLES_CLAIM_NAMESPACE` value with your collision-resistant custom JWT roles claim namespace. If you copied the rule code from the section above, this will be `http://myapp.com/roles`.
+4. Replace the `ROLES_CLAIM_NAMESPACE` value with your collision-resistant custom JWT roles claim namespace. If you copied the rule code from the section above, this will be `http://myapp.com/roles`.
 5. Remove the `.sample` extension to activate the file.
 
 ## Serve
@@ -154,7 +154,7 @@ This endpoint requires authorization with an access token. A simple JSON object 
 
 Delegated access is available with the `read:admin` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
-A user role of `'admin'` is also required in an array of roles contained in a custom claim in the access token. You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
+A user role of `'admin'` is also required in an array of roles contained in a custom claim in the access token. ([Instructions for doing so are here](#user-roles-rule).) You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
 
 ## License
 
