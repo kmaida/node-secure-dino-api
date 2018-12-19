@@ -1,19 +1,21 @@
-// Source and modifiable data
+// Source
 const source = require('./data/dinosaurs.json');
+// Modifiable data
 let dinosData = [...source];
-
-// Simplified dinosaurs listing
-const dinosList = dinosData.map(dino => {
-  return {
-    name: dino.name,
-    pronunciation: dino.pronunciation
-  }
-});
-
+// Returns simplified dinosaurs listing
+const getDinosList = () => {
+  return dinosData.map(dino => {
+    return {
+      name: dino.name,
+      pronunciation: dino.pronunciation,
+      favorite: dino.favorite ? dino.favorite : false
+    }
+  });
+}
 // Simulate live server call by adding random delay
 const delay = () => Math.random() * 2500;
 
-// Authorization
+// AUTHORIZATION
 // Accessing secure routes requires access
 // token from issuer specified in .env config
 const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
@@ -30,29 +32,25 @@ const requiredRole = (role) => {
       return next();
     } else {
       return next(
-        createError(
-          401,
-          'You do not have sufficient permissions to access this resource.'
-        )
+        createError(401, 'You do not have sufficient permissions to access this resource.')
       );
     }
   }
 };
 
-// Router
-const express = require("express");
-const router = express.Router();
-
 /*
  |--------------------------------------
- | API Routes
+ | API Routing
  |--------------------------------------
 */
+
+const express = require("express");
+const router = express.Router();
 
 // GET basic dinosaur listing (public)
 router.get('/api/dinosaurs', (req, res) => {
   setTimeout(() => {
-    res.json(dinosList);
+    res.json(getDinosList());
   }, delay());
 });
 
@@ -80,7 +78,6 @@ router.post('/api/secure/fav',
     setTimeout(() => {
       const dinoName = req.body.name;
       const matchingDino = dinosData.filter(d => d.name === dinoName)[0];
-
       if (!matchingDino) {
         res.status(404).send({error: `Cannot find a dinosaur called "${dinoName}"`});
       } else {
@@ -89,6 +86,16 @@ router.post('/api/secure/fav',
         } else {
           matchingDino.favorite = true;
         }
+        // Update modifiable data in the local dinosData store
+        const index = dinosData.findIndex(d => d.name === dinoName);
+        const newData = dinosData.map((dino, i) => {
+          if (i === index) {
+            return Object.assign({}, dino, matchingDino);
+          }
+          return dino;
+        });
+        dinosData = newData;
+        // Return (updated) matching dinosaur details JSON
         res.json(matchingDino);
       }
     }, delay());
