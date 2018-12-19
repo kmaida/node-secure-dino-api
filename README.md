@@ -94,7 +94,8 @@ This endpoint is _public_. It returns an array of objects with the following typ
 [
   {
     name: string,
-    pronunciation: string
+    pronunciation: string,
+    favorite?: boolean
   },
   {...}
 ]
@@ -139,6 +140,8 @@ The dinosaur favorite property will be toggled and the dinosaur's full details w
   favorite?: boolean;
 }
 ```
+
+The dinosaur simplified listing will also be updated to reflect favoriting activity. Changes will persist in the local user's instance until the local Node server is restarted. (Data is not stored anywhere outside of the JavaScript implementation, so it will not persist for multiple users or across sessions.)
 
 Delegated access is available with the `write:dino-fav` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
