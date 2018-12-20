@@ -26,7 +26,7 @@ $ npm install
 
 ### User Roles Rule
 
-1. Go to the [**Auth0 Dashboard - Rules**](https://manage.auth0.com/#/rules) section and [create a new Rule](https://manage.auth0.com/#/rules/create). Choose the _Empty Rule_ template.
+1. Go to the [**Auth0 Dashboard - Rules**](https://manage.auth0.com/#/rules) section and [create a new Rule](https://manage.auth0.com/#/rules/create). Choose the _Empty Rule_ template. (Alternatively, you could choose the _Set roles to a user_ template and modify it according to your needs.)
 2. Give your rule a name. `Set user roles and add to tokens` would be appropriate.
 3. Enter the following code in the Rule editor, replacing `{YOUR_FULL_EMAIL_HERE}` with your own email address:
 
@@ -38,13 +38,12 @@ function (user, context, callback) {
   }
   user.app_metadata = user.app_metadata || {};
   var addRolesToUser = function(user, cb) {
-    if (user.email && user.email === 'yi.mihi@gmail.com') {
+    if (user.email && user.email === '{YOUR_FULL_EMAIL_HERE}') {
       cb(null, ['editor']);
     } else {
       cb(null, []);
     }
   };
-
   addRolesToUser(user, function(err, roles) {
     if (err) {
       callback(err);
