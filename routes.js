@@ -70,12 +70,12 @@ router.get('/api/secure/dinosaur/:name',
 
 // POST toggles dino as a favorite (secure)
 // Requires access token; delegated access w/ scope
-// Requires 'admin' user role claim
+// Requires ['editor'] user roles claim value
 // Dinosaur name must be provided in body
 router.post('/api/secure/fav',
   authCheck,
   requiredScopes('write:dino-fav'),
-  requiredRole('admin'),
+  requiredRole('editor'),
   (req, res) => {
     setTimeout(() => {
       const dinoName = req.body.name;

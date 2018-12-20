@@ -1,4 +1,4 @@
-# node-api-dinos-secure
+# node-secure-dino-api
 
 Node.js OAuth 2.0 API with public and secure endpoints and delegated authorization. Instructions are available below for setting up this API using [Auth0](https://auth0.com) as the authorization server for issuing access tokens.
 
@@ -31,19 +31,20 @@ $ npm install
 3. Enter the following code in the Rule editor, replacing `{YOUR_FULL_EMAIL_HERE}` with your own email address:
 
 ```js
-function(user, context, callback) {
+function (user, context, callback) {
   // Make sure the user has verified their email address
   if (!user.email || !user.email_verified) {
     return callback(new UnauthorizedError('Please verify your email before logging in.'));
   }
   user.app_metadata = user.app_metadata || {};
   var addRolesToUser = function(user, cb) {
-    if (user.email && user.email === '{YOUR_FULL_EMAIL_HERE}') {
-      cb(null, ['admin']);
+    if (user.email && user.email === 'yi.mihi@gmail.com') {
+      cb(null, ['editor']);
     } else {
-      cb(null, ['user']);
+      cb(null, []);
     }
   };
+
   addRolesToUser(user, function(err, roles) {
     if (err) {
       callback(err);
@@ -51,7 +52,7 @@ function(user, context, callback) {
       user.app_metadata.roles = roles;
       auth0.users.updateAppMetadata(user.user_id, user.app_metadata)
         .then(function(){
-          var namespace = 'http://myapp.com/roles';
+          var namespace = 'https://secure-dino-api/roles';
           var userRoles = user.app_metadata.roles;
           context.idToken[namespace] = userRoles;
           context.accessToken[namespace] = userRoles;
@@ -70,7 +71,7 @@ function(user, context, callback) {
 1. Open the `.env.sample` file.
 2. Replace the `ISSUER_BASE_URL` value with your Auth0 domain with `https://` in front of it (e.g., `https://{your-tenant}.auth0.com`).
 3. Enter the API identifier as the `ALLOWED_AUDIENCES` value. This should be `https://secure-dino-api` (as specified in the Auth0 setup above).
-4. Replace the `ROLES_CLAIM_NAMESPACE` value with your collision-resistant custom JWT roles claim namespace. If you copied the rule code from the section above, this will be `http://myapp.com/roles`.
+4. Replace the `ROLES_CLAIM_NAMESPACE` value with your collision-resistant custom JWT roles claim namespace. If you copied the rule code from the section above, this will be `https://secure-dino-api/roles`.
 5. Remove the `.sample` extension to activate the file.
 
 ## Serve
@@ -145,7 +146,7 @@ The dinosaur simplified listing will also be updated to reflect favoriting activ
 
 Delegated access is available with the `write:dino-fav` scope for access tokens issued by the `ISSUER_BASE_URL` you specify in the `.env` file (rename `.env.sample` and add your configuration).
 
-A user role of `'admin'` is also required in an array of roles contained in a custom claim in the access token. ([Instructions for doing so are here](#user-roles-rule).) You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
+A user role of `'editor'` is also required in an array of roles contained in a custom claim in the access token. ([Instructions for doing so are here](#user-roles-rule).) You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
 
 ## License
 

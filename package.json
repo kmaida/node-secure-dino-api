@@ -1,8 +1,8 @@
 {
-  "name": "node-api-dinos-secure",
+  "name": "node-secure-dino-api",
   "version": "0.1.1",
   "description": "Node.js OAuth 2.0 API with public and secure endpoints and delegated authorization.",
-  "repository": "https://github.com/kmaida/ng-comp-life-server",
+  "repository": "https://github.com/kmaida/node-secure-dino-api",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server"
