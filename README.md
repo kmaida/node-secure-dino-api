@@ -147,6 +147,10 @@ Delegated access is available with the `write:dino-fav` scope for access tokens 
 
 A user role of `'editor'` is also required in an array of roles contained in a custom claim in the access token. ([Instructions for doing so are here](#user-roles-rule).) You can add custom claims to your Auth0 tokens using [Auth0 Rules](https://manage.auth0.com/#/rules/create). You should set the [collision-resistant namespace](https://openid.net/specs/openid-connect-core-1_0.html#AdditionalClaims) for your rule in the `.env` file.
 
+## Postman
+
+For testing these endpoints, a [Postman](https://getpostman.com) [collection is available here](https://www.getpostman.com/collections/c9ef038a60f4e1fb461e). The [collection uses a variable](https://learning.getpostman.com/docs/postman/environments_and_globals/variables/#defining-collection-variables) for authorization. The variable is called `access_token`, and you should update the value of this variable with an appropriate access token (acquired via your authorization server) to test the secured endpoints.
+
 ## License
 
 [MIT](LICENSE)
